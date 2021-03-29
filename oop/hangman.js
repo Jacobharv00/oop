@@ -1,15 +1,26 @@
-// 1. Create a constructor function for the hangman game
-// 2. Setup two attributes. One for the word itself. Another for the number of guesses allowed.
-// 3. Create two instances of it and print both to the console.
-
-const Hangman = function (word, guesses) {
-    this.word = word
+const Hangman = function (word, guesses, guessedLetters) {
+    this.word = word.toLowerCase().split('')
     this.guesses = guesses
+    this.guessedLetters = ['c', 'e']
 }
 
-const guess1 = new Hangman('taco', 3)
-console.log(guess1)
+Hangman.prototype.getPuzzle = function () {
+    let puzzle = ''
 
-const guess2 = new Hangman('burrito', 4)
-console.log(guess2)
+    this.word.forEach((letter) => {
+        if (this.guessedLetters.includes(letter) || letter === ' ') {
+            puzzle += letter
+        } else {
+            puzzle += '*'
+        }
+    })
+
+    return puzzle
+}
+
+const game1 = new Hangman('taco', 3)
+console.log(game1.getPuzzle())
+
+const game2 = new Hangman('burrito', 4)
+console.log(game2.getPuzzle())
 
