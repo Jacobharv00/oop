@@ -1,31 +1,90 @@
 // Prototypal Inheritance
+// myPerson --> Person.prototype --> Object.prototype --> null
 
-const Person = function (firstName, lastName, age, likes = []) {
-    this.firstName = firstName
-    this.lastName = lastName
-    this.age = age
-    this.likes = likes
+// New way to set up a constructor function with the class keyword and constructor. A lot cleaner to read and write.
+class Person {
+    constructor(firstName, lastName, age, likes = []) {
+        this.firstName = firstName
+        this.lastName = lastName
+        this.age = age
+        this.likes = likes
+    }
+    getBio() {
+        let bio = `${this.firstName} is ${this.age}.`
+
+        this.likes.forEach((like) => {
+            bio += ` ${this.firstName} likes ${like}.`
+        })
+    
+        return bio
+    }
+    setName(fullName) {
+        const names = fullName.split(' ')
+        this.firstName = names[0]
+        this.lastName = names[1]
+    }
 }
 
-Person.prototype.getBio = function () {
-    let bio = `${this.firstName} is ${this.age}.`
-
-    this.likes.forEach((like) => {
-        bio += ` ${this.firstName} likes ${like}.`
-    })
-
-    return bio
+class Employee extends Person {
+    constructor(firstName, lastName, age, position, likes) {
+        super(firstName, lastName, age, likes)
+        this.position = position
+    }
+    getBio() {
+        return `${this.firstName} ${this.lastName} is a ${this.position}.`
+    }
+    getYearsLeft() {
+        return 65 - this.age
+    }
 }
 
-Person.prototype.setName = function (fullName) {
-    const names = fullName.split(' ')
-    this.firstName = names[0]
-    this.lastName = names[1]
+class Student extends Person {
+    constructor(firstName, lastName, age, grade, likes) {
+        super(firstName, lastName, age, likes)
+        this.grade = grade
+    }
+    updateGrade(change) {
+        this.grade += change
+    }
+    getBio() {
+        const status = this.grade >= 70 ? 'passing' : 'failing'
+        return `${this.firstName} is ${status} the class.`
+    }
 }
-
-const me = new Person('Andrew', 'Mead', 27, ['Teaching', 'Biking'])
-me.setName('Alexis Turner')
+const me = new Student ('Jacob', 'Harvey', 30, 88, [])
+console.log(me.getBio())
+me.updateGrade(-20)
 console.log(me.getBio())
 
-const person2 = new Person('Jacob', 'Harvey', 30)
-console.log(person2.getBio())
+
+
+
+
+
+
+
+
+
+
+// Old way to set up a constructor function but still works good
+//const Person = function (firstName, lastName, age, likes = []) {
+  //  this.firstName = firstName
+    //this.lastName = lastName
+    //this.age = age
+    //this.likes = likes
+//}
+
+//Person.prototype.getBio = function () {
+  //  let bio = `${this.firstName} is ${this.age}.`
+
+   // this.likes.forEach((like) => {
+     //   bio += ` ${this.firstName} likes ${like}.`
+    //})
+    //return bio
+//}
+
+//Person.prototype.setName = function (fullName) {
+  //  const names = fullName.split(' ')
+  //  this.firstName = names[0]
+  //  this.lastName = names[1]
+//}
